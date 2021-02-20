@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../static/css/common.css" th:href="@{/css/common.css}" rel="stylesheet" type="text/css" media="all"/>
+</head>
+<body>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">ISBN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td><span th:text="${book.title}"></span></td>
+        <td><span th:text="${book.author}"></span></td>
+        <td><span th:text="${book.ISBN}"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+<form action="/add-book">
+    <button type="submit" class="btn btn-primary" style="width: 100%;">Add Book</button>
+</form>
+</body>
+</html>

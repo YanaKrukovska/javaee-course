@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../static/css/common.css" th:href="@{/css/common.css}" rel="stylesheet" type="text/css" media="all"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+        function getBooks() {
+            let $books = $('#books-tbody');
+            $.ajax({
+                url: '/book/all',
+                success: function (response) {
+                    $books.empty();
+                    response.forEach(function (book) {
+                        $books.append('<tr><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.isbn + '</td></tr>');
+                    })
+                }
+            });
+        }
+
+        $(function () {
+            $(document).ready(function () {
+                getBooks();
+            });
+
+            $('#add-book-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/book',
+                    data: JSON.stringify({
+                        title: $(this).find('[id=inputTitle]').val(),
+                        author: $(this).find('[id=inputAuthor]').val(),
+                        isbn: $(this).find('[id=inputISBN]').val()
+                    }),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        $('[id="error-message"]').hide();
+                    },
+                    success: function (receivedMessage) {
+                        console.log(receivedMessage);
+                        if (receivedMessage.errors.length > 0) {
+                            $('[id="error-message"]').text(receivedMessage.errors).show();
+                        } else {
+                            $("#add-book-form")[0].reset();
+                        }
+                        getBooks();
+                    }
+                });
+            })
+
+            let $books = $('#books-tbody');
+            $.ajax({
+                url: '/book/all',
+                success: function (response) {
+                    $books.empty();
+                    response.forEach(function (book) {
+                        $books.append('<tr><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.isbn + '</td></tr>');
+                    })
+                }
+            });
+
+            $('#search-button').click(function () {
+                let $searchResult = $('#search-results');
+                $searchResult.empty();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/book?searchInput=' + ($("#book-search-input")).val(),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    },
+                    success: function (response) {
+
+                        $('[id="search-results"]').show();
+
+                        response.forEach(function (book) {
+                            $searchResult.append('<p>' + book.title + ' - ' + book.author + ' - ' + book.isbn + '</p>');
+                        });
+                        $("#book-search-input").val('');
+                    }
+                });
+
+
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="center">
+    <label for="book-search-input" id="book-search-input-label">Search:</label>
+    <input type="text" id="book-search-input" name="book-search"
+           placeholder="Enter a part of title, author name or ISBN" required>
+    <button type="submit" class="btn btn-primary" id="search-button">Search</button>
+
+    <div id="search-results" style="display: none">
+    </div>
+</div>
+
+<table class="table" id="books-table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">ISBN</th>
+    </tr>
+    </thead>
+    <tbody id="books-tbody">
+    </tbody>
+</table>
+
+<div class="center">
+
+    <form id="add-book-form">
+        <div class="form-group">
+            <label for="inputTitle">Title</label>
+            <input type="text" class="form-control" id="inputTitle" placeholder="Enter book title"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="inputAuthor">Author</label>
+            <input type="text" class="form-control" id="inputAuthor" placeholder="Enter book author" required>
+        </div>
+        <div class="form-group">
+            <label for="inputISBN">ISBN</label>
+            <input type="text" class="form-control" id="inputISBN" placeholder="Enter book ISBN"
+                   required>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-primary btn-xl">Submit</button>
+        </div>
+
+        <div id="error-message" class="alert alert-danger" role="alert" style="display: none; margin: 2%">
+        </div>
+    </form>
+</div>
+<br>
+</body>
+</html>

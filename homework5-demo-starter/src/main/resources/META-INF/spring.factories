@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ua.edu.ukma.krukovska.messaging.configuration.MessageProcessorAutoConfiguration

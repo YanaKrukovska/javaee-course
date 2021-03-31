@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.6.0/css/bootstrap.min.css"/>
+    <link href="../static/css/authentication.css" th:href="@{/css/authentication.css}" rel="stylesheet" type="text/css"
+          media="all"/>
+</head>
+<body>
+<div class="authentication-form">
+    <form th:action="@{/signup-processing}" th:object="${user}" method="post">
+        <h2 class="text-center">Sign up</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" th:field="*{username}" required="required">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" placeholder="Email" th:field="*{email}" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" th:field="*{password}"
+                   required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+        </div>
+    </form>
+    <p class="text-center"><a th:href="@{/login}">Already have an account? Sign in</a></p>
+
+    <div th:if="${error != null}" id="error-message" class="alert alert-danger" role="alert"
+         th:text="${error}" style="margin: 2%">
+    </div>
+
+</div>
+</body>
+</html>

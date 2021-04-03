@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        .book-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15%;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragment/navbar.html"></div>
+
+<div class="book-info">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${book.title}"></h5>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="${book.author}"></h6>
+            <p class="card-text" th:text="${book.isbn}"></p>
+            <form th:action="@{/book/favourite/add}" method="post">
+                <div sec:authorize="hasRole('USER')">
+                    <td><input type="hidden" th:value="${book.id}" name="bookId"/>
+                        <button type="submit" class="btn btn-primary">Add to favourites</button>
+                    </td>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

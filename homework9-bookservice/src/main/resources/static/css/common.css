@@ -1,0 +1,46 @@
+.table {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 90px;
+    width: 80%;
+}
+
+.center {
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 100px;
+    width: 50%;
+}
+
+.buttons {
+    display: inline-block;
+    margin-left: 25%;
+}
+
+.buttons > form {
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.btn-xl {
+    padding-right: 10em;
+    padding-left: 10em;
+}
+
+#search-results {
+    margin-top: 5%;
+    padding: 20px;
+    background-color: #ffe9d9;
+    border-radius: 20px;
+}
+
+#book-search-input-label {
+    margin: 5px;
+    font-size: 20px;
+}
+
+#book-search-input {
+    border-radius: 10px;
+    width: 70%;
+    margin-right: 5px;
+}
